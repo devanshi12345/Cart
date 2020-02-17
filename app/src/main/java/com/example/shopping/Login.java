@@ -16,7 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shopping.Model.Users;
-import com.example.shopping.Prevelent.Prevelent;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,128 +31,53 @@ public class Login extends AppCompatActivity {
     EditText Password, Email;
     Button Loginbtn;
     private ProgressDialog loadingBar;
+    FirebaseAuth fAuth;
 
 
-    private String parentDbName = "Users";
     private CheckBox chkBoxRememberMe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Loginbtn =  findViewById(R.id.loginBtn);
+        Loginbtn = findViewById(R.id.loginBtn);
         Password = (EditText) findViewById(R.id.passwordInput);
         Email = (EditText) findViewById(R.id.email);
+        fAuth=FirebaseAuth.getInstance();
 
 
         loadingBar = new ProgressDialog(this);
 
-        chkBoxRememberMe=findViewById(R.id.rememberMe);
-        Paper.init(this);
-
+        chkBoxRememberMe = findViewById(R.id.rememberMe);
 
 
         Loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                LoginUser();
-            }
-        });
+            public void onClick(View v) {
 
 
+                String mEmail = Email.getText().toString().trim();
+                String mPassword = Password.getText().toString().trim();
 
-    }
+                fAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
+                          if(fAuth.getCurrentUser().isEmailVerified()){
+                              startActivity(new Intent(getApplicationContext(), Admin.class));
+                          }else{
+                              Toast.makeText(Login.this, "Please verify your Email address", Toast.LENGTH_SHORT).show();
+                          }
 
-
-    private void LoginUser()
-    {
-        String email = Email.getText().toString();
-        String password = Password.getText().toString();
-
-        if (TextUtils.isEmpty(email))
-        {
-            Toast.makeText(this, "Please write your ...", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(password))
-        {
-            Toast.makeText(this, "Please write your password...", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            loadingBar.setTitle("Login Account");
-            loadingBar.setMessage("Please wait, while we are checking the credentials.");
-            loadingBar.setCanceledOnTouchOutside(false);
-            loadingBar.show();
-
-
-            AllowAccessToAccount(phone, password);
-        }
-    }
-
-
-
-    private void AllowAccessToAccount(final String phone, final String password)
-    {
-        if(chkBoxRememberMe.isChecked())
-        {
-            Paper.book().write(Prevelent.UserPhoneNumber, phone);
-            Paper.book().write(Prevelent.UserPasswordKey, password);
-        }
-
-
-        final DatabaseReference RootRef;
-        RootRef = FirebaseDatabase.getInstance().getReference();
-
-
-        RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                if (dataSnapshot.child(parentDbName).child(phone).exists())
-                {
-                    Users usersData = dataSnapshot.child(parentDbName).child(phone).getValue(Users.class);
-
-                    assert usersData != null;
-                    if (usersData.getPhone().equals(phone))
-                    {
-                        if (usersData.getPassword().equals(password))
-                        {
-                            if (parentDbName.equals("Admins"))
-                            {
-
-
-                                Intent intent = new Intent(Login.this, Admin.class);
-                                startActivity(intent);
-                            }
-                            else if (parentDbName.equals("Users"))
-                            {
-                                Toast.makeText(Login.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
-
-                                Intent intent = new Intent(Login.this, Admin.class);
-                                Prevelent.onlineUsers = usersData;
-                                startActivity(intent);
-                            }
+                        } else {
+                            Toast.makeText(Login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                        else
-                        {
-                            loadingBar.dismiss();
-                            Toast.makeText(Login.this, "Password is incorrect.", Toast.LENGTH_SHORT).show();
-                        }
+
                     }
-                }
-                else
-                {
-                    Toast.makeText(Login.this, "Account with this " + phone + " number do not exists.", Toast.LENGTH_SHORT).show();
-                    loadingBar.dismiss();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                });
             }
         });
     }
 }
+
+

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/register"
+    android:background="@drawable/reg1"
     tools:context=".Register">
 
     <ImageView
@@ -38,11 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/userName"
         android:background="@drawable/inputdesign"
-        android:padding="10dp"
+        android:padding="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="6dp"
-        android:hint="Name"
+        android:hint="Email Address"
         android:inputType="text"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimaryDark"

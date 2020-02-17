@@ -11,12 +11,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,116 +37,81 @@ import java.util.logging.StreamHandler;
 public class Register extends AppCompatActivity {
 
     Button createAccount;
-    EditText userName, phoneNumber, passwordInput,email;
+    EditText userName, phoneNumber, passwordInput,Email;
 
 
 
 
+
+    FirebaseAuth fAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        createAccount=findViewById(R.id.registerBtn);
-        userName=findViewById(R.id.userName);
-        phoneNumber=findViewById(R.id.Contact);
-        email=findViewById(R.id.Email);
-        passwordInput=findViewById(R.id.registerPasswordInput);
 
+        userName= findViewById(R.id.userName);
+        Email=findViewById(R.id.Email);
+        passwordInput=findViewById(R.id.registerPasswordInput);
+        phoneNumber=findViewById(R.id.Contact);
+        createAccount=findViewById(R.id.registerBtn);
+
+
+        fAuth=FirebaseAuth.getInstance();
+
+        if(fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }
 
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateAccount();
-            }
-        });
-    }
-    private void CreateAccount()
-    {
-        String name = userName.getText().toString();
-        String phone = phoneNumber.getText().toString();
-        String email1=email.getText().toString();
-        String password = passwordInput.getText().toString();
 
-        if (TextUtils.isEmpty(name))
-        {
-            Toast.makeText(this, "Please write your name...", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(email1))
-        {
-            Toast.makeText(this, "Please write your phone number...", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(phone))
-        {
-            Toast.makeText(this, "Please write your phone number...", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(password))
-        {
-            Toast.makeText(this, "Please write your password...", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+                String mEmail =Email.getText().toString().trim();
+                String mPassword=passwordInput.getText().toString().trim();
 
+                if(TextUtils.isEmpty(mEmail)){
+                    Email.setError("Email is Required.");
+                    return;
+                }
+                if(TextUtils.isEmpty(mPassword)){
+                    passwordInput.setError("Password is Required.");
+                    return;
+                }
 
-            ValidateEmail(name, phone, password, email1);
-        }
-    }
-
-
-
-    private void ValidateEmail(final String name, final String phone, final String password, final  String email1)
-    {
-        final DatabaseReference RootRef;
-        RootRef = FirebaseDatabase.getInstance().getReference();
-
-        RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                if (!(dataSnapshot.child("Users").child(email1).exists()))
-                {
-                    HashMap<String, Object> userdataMap = new HashMap<>();
-                    userdataMap.put("phone", phone);
-                    userdataMap.put("password", password);
-                    userdataMap.put("name", name);
-                    userdataMap.put("email",email1);
-
-                    RootRef.child("Users").child(email1).updateChildren(userdataMap)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                if(mPassword.length()<6 ){
+                    passwordInput.setError("password must be greater than 6 character");
+                    return;
+                }
+                fAuth.createUserWithEmailAndPassword(mEmail,mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            fAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task)
-                                {
-                                    if (task.isSuccessful())
-                                    {
-                                        Toast.makeText(Register.this, "Congratulations, your account has been created.", Toast.LENGTH_SHORT).show();
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(Register.this, "User created.PLease check your email for verification", Toast.LENGTH_SHORT).show();
 
-
-                                        Intent intent = new Intent(Register.this, Login.class);
-                                        startActivity(intent);
-                                    }
-                                    else
-                                    {
-
-                                        Toast.makeText(Register.this, "Network Error: Please try again after some time...", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(Register.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
-                }
-                else
-                {
-                    Toast.makeText(Register.this, "This " + email1 + " already exists.", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(Register.this, "Please try again using another email.", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(Register.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        }
+                        else{
+                            Toast.makeText(Register.this,"Error !" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
-    }
+
+
 }
+
+
+
+    }
