@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shopping.Model.Users;
@@ -25,37 +26,48 @@ public class MainActivity extends AppCompatActivity {
 
     Button login, register;
     private ProgressDialog loadingBar;
+    TextView admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        login=findViewById(R.id.login);
-        register=findViewById(R.id.register);
-        loadingBar =new ProgressDialog(this);
+        login = findViewById(R.id.login);
+        register = findViewById(R.id.register);
+        loadingBar = new ProgressDialog(this);
+        admin = findViewById(R.id.adminHint);
         Paper.init(this);
 
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,Login.class);
+                Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,Register.class);
+                Intent intent = new Intent(MainActivity.this, Register.class);
                 startActivity(intent);
             }
         });
 
-
-
+        admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminLogin.class);
+                startActivity(intent);
             }
-        }
+        });
+    }
+}
+
+
+
+
 
 
 
