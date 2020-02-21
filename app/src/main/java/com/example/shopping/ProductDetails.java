@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +23,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -39,7 +43,7 @@ public class ProductDetails extends AppCompatActivity {
 
 
     private String categoryName,Description,Price,pName,saveCurrentDate,saveCurrentTime;
-    Button addNewProduct;
+    Button addNewProduct, updateproduct;
     EditText productName,productDescription,productPrice;
     ImageView newProductImage;
     private static  final int GalleryPick=1;
@@ -61,6 +65,7 @@ public class ProductDetails extends AppCompatActivity {
         productName=findViewById(R.id.productname);
         productDescription=findViewById(R.id.productdescription);
         productPrice=findViewById(R.id.productprice);
+        updateproduct=findViewById(R.id.updatenewproduct);
 
 
         categoryName=getIntent().getExtras().get("category").toString();
@@ -82,9 +87,17 @@ public class ProductDetails extends AppCompatActivity {
                 ValidateProductData();
             }
         });
+        //button to update in home activity
+        updateproduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProductDetails.this,Home.class));
+                finish();
+            }
+        });
 
 
-    }
+    }//store image in storage
     private void OpenGallery(){
         Intent gallery= new Intent();
         gallery.setAction(Intent.ACTION_GET_CONTENT);
@@ -176,17 +189,17 @@ public class ProductDetails extends AppCompatActivity {
 
         });
     }
-private  void SaveProductInfoToDatabase(){
+private  void SaveProductInfoToDatabase() {
 
-    HashMap<String,Object>productMap =new HashMap<>();
-    productMap.put("pid",productRandomKey);
-    productMap.put("date",saveCurrentDate);
-    productMap.put("time",saveCurrentTime);
-    productMap.put("description",Description);
-    productMap.put("image",downloadImageUrl);
+    HashMap<String, Object> productMap = new HashMap<>();
+    productMap.put("pid", productRandomKey);
+    productMap.put("date", saveCurrentDate);
+    productMap.put("time", saveCurrentTime);
+    productMap.put("description", Description);
+    productMap.put("image", downloadImageUrl);
     productMap.put("Category", categoryName);
-    productMap.put("price",Price);
-    productMap.put("name",pName);
+    productMap.put("price", Price);
+    productMap.put("name", pName);
 
 
    /* ProductRef.child(productRandomKey).updateChildren(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -208,22 +221,24 @@ private  void SaveProductInfoToDatabase(){
             .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentReference> task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
 
-                        downloadImageUrl=task.getResult().toString();
-                        Toast.makeText(ProductDetails.this,"product is added successfully",Toast.LENGTH_SHORT).show();
+                        downloadImageUrl = task.getResult().toString();
+                        Toast.makeText(ProductDetails.this, "product is added successfully", Toast.LENGTH_SHORT).show();
 
-                    }else{
-                        String message=task.getException().toString();
-                        Toast.makeText(ProductDetails.this,"Error:" +message,Toast.LENGTH_SHORT).show();
+                    } else {
+                        String message = task.getException().toString();
+                        Toast.makeText(ProductDetails.this, "Error:" + message, Toast.LENGTH_SHORT).show();
                     }
                 }
 
 
+            });
 
-        });
+
 
 }
+
 
 
 

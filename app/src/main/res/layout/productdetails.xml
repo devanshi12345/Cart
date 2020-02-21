@@ -72,6 +72,20 @@
         android:background="@drawable/buttons"/>
 
 
+    <Button
+        android:id="@+id/updatenewproduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addnewproduct"
+        android:text="Update PRODUCT"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:padding="17dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:background="@drawable/buttons"/>
 
 
 

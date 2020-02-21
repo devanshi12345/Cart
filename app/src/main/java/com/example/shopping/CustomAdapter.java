@@ -1,0 +1,78 @@
+package com.example.shopping;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
+
+    Home listActivity;
+    List<Data> dataList;
+    Context context;
+
+    public CustomAdapter(Home listActivity, List<Data> dataList) {
+        this.listActivity = listActivity;
+        this.dataList = dataList;
+
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+
+        //inflate layout
+        View itemView= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.data_layout,viewGroup,false);
+
+        ViewHolder viewHolder =new ViewHolder(itemView);
+        //handle item clicks here
+
+        viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //this will be called when user click item
+
+
+                //show data in toast
+
+                String image=dataList.get(position).getImage();
+                String name=dataList.get(position).getName();
+               String price =dataList.get(position).getPrice();
+                String description=dataList.get(position).getDescription();
+
+                Toast.makeText(listActivity,name+"\n" +description+"\n"+price,Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+//this will be called when user long click item
+            }
+        });
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+
+        //bind views
+
+
+        viewHolder.pName.setText(dataList.get(position).getName());
+        viewHolder.pDescription.setText(dataList.get(position).getDescription());
+        viewHolder.pPrice.setText(dataList.get(position).getPrice());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return dataList.size();
+    }
+}
