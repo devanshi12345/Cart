@@ -2,6 +2,8 @@ package com.example.shopping;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.icu.text.CaseMap;
 import android.media.Image;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -56,6 +58,9 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                 Toast.makeText(listActivity,name+"\n" +description+"\n"+price,Toast.LENGTH_SHORT).show();
 
+
+
+
             }
 
 
@@ -79,6 +84,8 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         viewHolder.pName.setText(dataList.get(position).getName());
         viewHolder.pDescription.setText(dataList.get(position).getDescription());
         viewHolder.pPrice.setText(dataList.get(position).getPrice());
+
+
 
     }
 
