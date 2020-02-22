@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -38,7 +39,8 @@ public class Home extends AppCompatActivity {
 //layout manger for recyclerview
 
     RecyclerView.LayoutManager layoutManager;
-    FloatingActionButton addBtn;
+
+
 
     //Firestore
     FirebaseFirestore db;
@@ -57,7 +59,8 @@ public class Home extends AppCompatActivity {
         //initialize vies
         mRecyclerView=findViewById(R.id.recycleview);
 
-        addBtn=findViewById(R.id.addBtn);
+
+
         //set it properties
         mRecyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(this);
@@ -70,13 +73,7 @@ public class Home extends AppCompatActivity {
 
         showData();
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Home.this,ProductDetails.class));
-                finish();
-            }
-        });
+
 
 
 
@@ -96,10 +93,8 @@ public class Home extends AppCompatActivity {
                 pd.dismiss();
                 for(DocumentSnapshot doc: task.getResult()){
                     Data data=new Data(doc.getString("pid"),
-                    
-
+                    doc.getString("image"),
                     doc.getString("name"),
-
                     doc.getString("price"),
                     doc.getString("description"));
 

@@ -17,7 +17,8 @@
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="250dp"/>
+            android:layout_height="250dp"
+            />
 
 
 
@@ -27,6 +28,7 @@
             android:textSize="22sp"
             android:textColor="#000"
             android:layout_width="match_parent"
+            android:background="@drawable/inputdesign"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/price"
@@ -34,6 +36,7 @@
             android:textSize="22sp"
             android:textColor="#000"
             android:layout_width="match_parent"
+            android:background="@drawable/inputdesign"
             android:layout_height="wrap_content"/>
 
         <TextView
@@ -42,7 +45,23 @@
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:text="Description"
+            android:background="@drawable/inputdesign"
             android:textColor="#000" />
+        <RatingBar
+            android:id="@+id/rating"
+            android:layout_width="250dp"
+            android:layout_height="50dp"/>
+
+          <Button
+              android:id="@+id/cartBtn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:text="ADD TO CART"
+              android:background="@drawable/buttons"
+              android:textColor="@android:color/white"
+              android:textStyle="bold"/>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

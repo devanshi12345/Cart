@@ -1,9 +1,14 @@
 package com.example.shopping;
 
+import android.app.ListActivity;
 import android.content.Context;
+import android.media.Image;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -17,15 +22,18 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     List<Data> dataList;
     Context context;
 
+    Button addToCart;
     public CustomAdapter(Home listActivity, List<Data> dataList) {
         this.listActivity = listActivity;
         this.dataList = dataList;
+
 
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+
 
         //inflate layout
         View itemView= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.data_layout,viewGroup,false);
@@ -41,7 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                 //show data in toast
 
-                String image=dataList.get(position).getImage();
+                String  image=dataList.get(position).getImage();
                 String name=dataList.get(position).getName();
                String price =dataList.get(position).getPrice();
                 String description=dataList.get(position).getDescription();
@@ -50,11 +58,14 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             }
 
+
             @Override
             public void onItemLongClick(View view, int position) {
 //this will be called when user long click item
             }
         });
+
+
 
         return viewHolder;
     }

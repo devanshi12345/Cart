@@ -44,7 +44,7 @@ public class Data {
     }
 
     public String getImage() {
-        return (image);
+        return String.valueOf(image);
     }
 
     public void setImage(String image) {
