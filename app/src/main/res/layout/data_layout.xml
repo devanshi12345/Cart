@@ -36,6 +36,7 @@
             android:textSize="22sp"
             android:textColor="#000"
             android:layout_width="match_parent"
+            android:layout_marginLeft="200dp"
             android:background="@drawable/inputdesign"
             android:layout_height="wrap_content"/>
 
@@ -50,7 +51,8 @@
         <RatingBar
             android:id="@+id/rating"
             android:layout_width="250dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:layout_gravity="center"/>
 
           <Button
               android:id="@+id/cartBtn"
@@ -60,7 +62,8 @@
               android:text="ADD TO CART"
               android:background="@drawable/buttons"
               android:textColor="@android:color/white"
-              android:textStyle="bold"/>
+              android:textStyle="bold"
+              android:onClick="Cart"/>
 
     </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,9 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
     EditText Password, Email;
-    Button Loginbtn;
+    Button Loginbtn,register;
     private ProgressDialog loadingBar;
     FirebaseAuth fAuth;
+    TextView hint;
 
 
     private CheckBox chkBoxRememberMe;
@@ -33,12 +35,28 @@ public class Login extends AppCompatActivity {
         Loginbtn = findViewById(R.id.loginBtn);
         Password = (EditText) findViewById(R.id.passwordInput);
         Email = (EditText) findViewById(R.id.email);
+        hint=findViewById(R.id.hint);
+        register=findViewById(R.id.registerBtn);
         fAuth=FirebaseAuth.getInstance();
 
 
         loadingBar = new ProgressDialog(this);
 
         chkBoxRememberMe = findViewById(R.id.rememberMe);
+        hint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Login.this,AdminLogin.class);
+                startActivity(intent);
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Login.this,Register.class);
+                startActivity(intent);
+            }
+        });
 
 
         Loginbtn.setOnClickListener(new View.OnClickListener() {

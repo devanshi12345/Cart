@@ -36,6 +36,7 @@ import javax.annotation.Nullable;
 public class Home extends AppCompatActivity {
   List<Data>dataList =new ArrayList<>();
     RecyclerView mRecyclerView;
+    String Url;
 //layout manger for recyclerview
 
     RecyclerView.LayoutManager layoutManager;
@@ -93,10 +94,10 @@ public class Home extends AppCompatActivity {
                 pd.dismiss();
                 for(DocumentSnapshot doc: task.getResult()){
                     Data data=new Data(doc.getString("pid"),
-                    doc.getString("image"),
-                    doc.getString("name"),
-                    doc.getString("price"),
-                    doc.getString("description"));
+                           doc.getString("name"),
+                            doc.getString("description"),
+                            doc.getString("price"),
+                            doc.getString("image"));
 
                     dataList.add(data);
 

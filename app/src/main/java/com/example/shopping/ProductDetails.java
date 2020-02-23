@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -174,6 +175,7 @@ public class ProductDetails extends AppCompatActivity {
                         }
                         downloadImageUrl = filePath.getDownloadUrl().toString();
                         return filePath.getDownloadUrl();
+
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
@@ -202,20 +204,6 @@ private  void SaveProductInfoToDatabase() {
     productMap.put("name", pName);
 
 
-   /* ProductRef.child(productRandomKey).updateChildren(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-        @Override
-        public void onComplete(@NonNull Task<Void> task) {
-           if(task.isSuccessful()){
-
-               downloadImageUrl=task.getResult().toString();
-               Toast.makeText(ProductDetails.this,"product is added successfully",Toast.LENGTH_SHORT).show();
-
-           }else{
-               String message=task.getException().toString();
-               Toast.makeText(ProductDetails.this,"Error:" +message,Toast.LENGTH_SHORT).show();
-           }
-        }
-    });*/
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     db.collection("Products").add(productMap)
             .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

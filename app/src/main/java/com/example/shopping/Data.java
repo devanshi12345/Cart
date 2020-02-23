@@ -9,7 +9,7 @@ public class Data {
 
     }
 
-    public Data(String category, String name, String description, String price,String image) {
+    public Data(String category, String name, String description, String price, String image) {
 
         this.name = name;
         this.description = description;
@@ -44,7 +44,7 @@ public class Data {
     }
 
     public String getImage() {
-        return String.valueOf(image);
+        return (image);
     }
 
     public void setImage(String image) {
