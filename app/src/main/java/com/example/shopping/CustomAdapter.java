@@ -52,9 +52,9 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                 //show data in toast
 
-                String image=dataList.get(position).getImage();
+                String image=dataList.get(position).getmImageUrl();
                 String name=dataList.get(position).getName();
-               String price =dataList.get(position).getPrice();
+                String price =dataList.get(position).getPrice();
                 String description=dataList.get(position).getDescription();
 
                 Toast.makeText(listActivity,name+"\n" +description+"\n"+price, Toast.LENGTH_SHORT).show();

@@ -52,14 +52,10 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         pImage=itemView.findViewById(R.id.image);
         addToCart=itemView.findViewById(R.id.cartBtn);
 
-        addToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
 
 
-            }
-        });
+
 
     }
 

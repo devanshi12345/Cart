@@ -62,6 +62,7 @@ public class Home extends AppCompatActivity {
 
 
 
+
         //set it properties
         mRecyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(this);
@@ -94,7 +95,7 @@ public class Home extends AppCompatActivity {
                 pd.dismiss();
                 for(DocumentSnapshot doc: task.getResult()){
                     Data data=new Data(doc.getString("pid"),
-                           doc.getString("name"),
+                            doc.getString("name"),
                             doc.getString("description"),
                             doc.getString("price"),
                             doc.getString("image"));

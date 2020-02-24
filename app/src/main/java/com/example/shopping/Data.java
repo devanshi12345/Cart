@@ -3,9 +3,9 @@ package com.example.shopping;
 public class Data {
 
     String   name, description, price;
-    String image;
+    String mImageUrl;
 
-    public Data(String name, String image, String price, String description) {
+    public Data(String name, String mImageUrl, String price, String description) {
 
     }
 
@@ -14,7 +14,7 @@ public class Data {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.image = image;
+        this.mImageUrl = image;
     }
 
 
@@ -43,11 +43,11 @@ public class Data {
         this.price = price;
     }
 
-    public String getImage() {
-        return (image);
-    }
+    public String getmImageUrl() {
+        return mImageUrl;}
 
-    public void setImage(String image) {
-        this.image = image;
+
+    public void setImage(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
     }
 }
